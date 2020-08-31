@@ -1,5 +1,6 @@
 package guru.springframework.msscbreweryclient.web.config;
 
+import lombok.AllArgsConstructor;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
@@ -12,17 +13,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@AllArgsConstructor
 public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
+
+    private final HttpConfigurationProperties properties;
 
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(100);
-        connectionManager.setDefaultMaxPerRoute(20);
+        connectionManager.setMaxTotal(properties.getMaxTotal());
+        connectionManager.setDefaultMaxPerRoute(properties.getDefaultMaxPerRoute());
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
-                .setConnectionRequestTimeout(3000)
-                .setSocketTimeout(3000)
+                .setConnectionRequestTimeout(properties.getConnectionRequestTimeout())
+                .setSocketTimeout(properties.getSocketTimeout())
                 .build();
 
         CloseableHttpClient httpClient = HttpClients

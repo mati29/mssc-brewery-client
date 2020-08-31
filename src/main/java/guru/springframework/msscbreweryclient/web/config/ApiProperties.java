@@ -1,4 +1,4 @@
-package guru.springframework.msscbreweryclient.web.client;
+package guru.springframework.msscbreweryclient.web.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
